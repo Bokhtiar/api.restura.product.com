@@ -9,7 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.store = exports.index = void 0;
+exports.show = exports.store = exports.index = void 0;
+const mongoose_1 = require("mongoose");
+const helper_1 = require("../../../src/helper");
 const category_services_1 = require("../../../src/services/admin/category.services");
 const index = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -28,6 +30,19 @@ exports.index = index;
 const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name, icon, parent, ancestors } = req.body;
+        /* email exist */
+        const emailExist = yield category_services_1.categoryService.findOneByKey({ name });
+        if (emailExist) {
+            return res.status(409).json(yield (0, helper_1.HttpErrorResponse)({
+                status: false,
+                errors: [
+                    {
+                        field: "name",
+                        message: "Name already exist.",
+                    },
+                ],
+            }));
+        }
         const documents = {
             name,
             icon,
@@ -46,3 +61,20 @@ const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.store = store;
+const show = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const result = yield category_services_1.categoryService.findOneByID({
+            _id: new mongoose_1.Types.ObjectId(id),
+        });
+        res.status(200).json({
+            status: true,
+            data: result,
+        });
+    }
+    catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+exports.show = show;

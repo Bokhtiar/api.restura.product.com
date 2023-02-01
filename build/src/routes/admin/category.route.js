@@ -32,3 +32,4 @@ const categoryController = __importStar(require("../../controllers/admin/categor
 exports.CategoryRouotes = express_1.default.Router();
 exports.CategoryRouotes.get("/", categoryController.index);
 exports.CategoryRouotes.post("/", categoryController.store);
+exports.CategoryRouotes.get("/:id", categoryController.show);

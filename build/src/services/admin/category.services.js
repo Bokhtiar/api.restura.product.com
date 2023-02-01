@@ -13,15 +13,9 @@ exports.categoryService = void 0;
 const models_1 = require("../../models");
 /* list of resurce */
 const findAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    return yield models_1.Models.Category.find()
-        .select({
-        "_id": true,
-        "name": true,
-        "parent": true,
-        "ancestors._id": true,
-        "ancestors.name": true
-    }).exec();
+    return yield models_1.Models.Category.find({ parent: null });
 });
+/* nested category insert */
 const buildAncestors = (id, parent_id) => __awaiter(void 0, void 0, void 0, function* () {
     let ancest = [];
     try {
@@ -51,7 +45,16 @@ const storeResource = ({ documents, }) => __awaiter(void 0, void 0, void 0, func
     buildAncestors(newCategory._id, parent);
     return newCategory;
 });
+/* specific resouce findOneByID */
+const findOneByID = ({ _id }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield models_1.Models.Category.findById({ _id });
+});
+const findOneByKey = (params) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield models_1.Models.Category.findOne(Object.assign({}, params));
+});
 exports.categoryService = {
     findAll,
+    findOneByID,
     storeResource,
+    findOneByKey
 };

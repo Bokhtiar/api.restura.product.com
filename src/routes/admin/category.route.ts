@@ -5,3 +5,4 @@ export const CategoryRouotes = express.Router()
 
 CategoryRouotes.get("/", categoryController.index)
 CategoryRouotes.post("/", categoryController.store)
+CategoryRouotes.get("/:id", categoryController.show)

@@ -1,18 +1,13 @@
+import { Types } from "mongoose";
 import { Models } from "../../models";
 import { ICategory, ICategoryCreateUpdate } from "../../types/category.types";
 
 /* list of resurce */
 const findAll = async (): Promise<ICategory[] | []> => {
-    return await Models.Category.find()
-     .select({
-     "_id": true, 
-     "name": true,
-     "parent" : true,
-     "ancestors._id": true,
-     "ancestors.name": true }).exec();
-
+  return await Models.Category.find({ parent: null });
 };
 
+/* nested category insert */
 const buildAncestors = async (id: any, parent_id: any) => {
   let ancest = [];
   try {
@@ -39,7 +34,6 @@ const storeResource = async ({
 }: {
   documents: ICategoryCreateUpdate;
 }): Promise<ICategory | null> => {
-
   let parent = documents.parent ? documents.parent : null;
   const category = new Models.Category({
     name: documents.name,
@@ -47,13 +41,23 @@ const storeResource = async ({
     icon: documents.icon,
   });
 
-    let newCategory = await category.save();
-   buildAncestors(newCategory._id, parent);
-   return newCategory
-  
+  let newCategory = await category.save();
+  buildAncestors(newCategory._id, parent);
+  return newCategory;
 };
+
+/* specific resouce findOneByID */
+const findOneByID = async({_id}: {_id:Types.ObjectId}):Promise<ICategory | null> => {
+  return await Models.Category.findById({_id})
+}
+
+const findOneByKey = async(params:any): Promise<ICategory | null> => {
+  return await Models.Category.findOne({...params})
+}
 
 export const categoryService = {
   findAll,
+  findOneByID,
   storeResource,
+  findOneByKey
 };
