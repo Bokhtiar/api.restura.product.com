@@ -1,5 +1,6 @@
 import Mongoose from "mongoose";
-import { IHttpErrorResponse, IHttpSuccessResponse, IHeader } from "../types/index.types";
+import { IHttpErrorResponse,IHttpSuccessResponse, IHeader } from "../../../src/types/index.types";
+
 
 /* Valid mongoose ID */
 export const validMongooseId = (id: Mongoose.Types.ObjectId | string) => {

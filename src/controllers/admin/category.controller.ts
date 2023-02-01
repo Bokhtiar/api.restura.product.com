@@ -51,6 +51,7 @@ export const store = async (
       icon,
       parent,
       ancestors,
+      is_published: true,
     };
 
     await categoryService.storeResource({ documents });
@@ -97,6 +98,7 @@ export const update = async (
       icon,
       parent,
       ancestors,
+      is_published: true,
     };
     /* check unique name */
     const existWithName = await categoryService.findOneByKey({ name });
@@ -146,3 +148,42 @@ export const destroy = async (
     next(error);
   }
 };
+
+/* specific reosurce publish status change */
+export const publishUnpublish = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params
+
+    /* check available category */
+    const availableCategory = await categoryService.findOneByID({ _id: new Types.ObjectId(id) })
+    if (!availableCategory) {
+      return res.status(404).json(
+        await HttpErrorResponse({
+          status: false,
+          errors: [
+            {
+              field: "Category",
+              message: "Category not found.",
+            },
+          ],
+        })
+      );
+    }
+
+    await categoryService.findOneByIdAndUpdatePublishUnpublish(
+      {
+        _id: new Types.ObjectId(id),
+        is_published: availableCategory.is_published,
+      }
+    )
+
+    res.status(200).json({
+      status: true,
+      message: "Successfully category updated"
+    })
+
+  } catch (error: any) {
+    console.log(error);
+    next(error)
+  }
+}

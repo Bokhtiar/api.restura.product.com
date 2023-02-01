@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.destroy = exports.update = exports.show = exports.store = exports.index = void 0;
+exports.publishUnpublish = exports.destroy = exports.update = exports.show = exports.store = exports.index = void 0;
 const mongoose_1 = require("mongoose");
 const helper_1 = require("../../../src/helper");
 const category_services_1 = require("../../../src/services/admin/category.services");
@@ -48,6 +48,7 @@ const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
             icon,
             parent,
             ancestors,
+            is_published: true,
         };
         yield category_services_1.categoryService.storeResource({ documents });
         res.status(200).json({
@@ -89,6 +90,7 @@ const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
             icon,
             parent,
             ancestors,
+            is_published: true,
         };
         /* check unique name */
         const existWithName = yield category_services_1.categoryService.findOneByKey({ name });
@@ -134,3 +136,35 @@ const destroy = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.destroy = destroy;
+/* specific reosurce publish status change */
+const publishUnpublish = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        /* check available category */
+        const availableCategory = yield category_services_1.categoryService.findOneByID({ _id: new mongoose_1.Types.ObjectId(id) });
+        if (!availableCategory) {
+            return res.status(404).json(yield (0, helper_1.HttpErrorResponse)({
+                status: false,
+                errors: [
+                    {
+                        field: "Category",
+                        message: "Category not found.",
+                    },
+                ],
+            }));
+        }
+        yield category_services_1.categoryService.findOneByIdAndUpdatePublishUnpublish({
+            _id: new mongoose_1.Types.ObjectId(id),
+            is_published: availableCategory.is_published,
+        });
+        res.status(200).json({
+            status: true,
+            message: "Successfully category updated"
+        });
+    }
+    catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+exports.publishUnpublish = publishUnpublish;

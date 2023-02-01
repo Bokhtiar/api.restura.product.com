@@ -6,13 +6,13 @@ export interface ICategory {
   icon: string;
   parent: {};
   ancestors: [{}];
-  status?: boolean;
+  is_published: boolean;
 }
-
+ 
 export interface ICategoryCreateUpdate {
   name: string;
   icon: string;
   parent: {};
   ancestors: [{}];
-  status?: boolean;
+  is_published: boolean;
 }

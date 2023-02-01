@@ -63,11 +63,18 @@ const findOneByIDAndUpdate = ({ _id, documents }) => __awaiter(void 0, void 0, v
 const findOneByAndDelete = ({ _id }) => __awaiter(void 0, void 0, void 0, function* () {
     return yield models_1.Models.Category.findByIdAndDelete({ _id });
 });
+/* specific resource publish status change */
+const findOneByIdAndUpdatePublishUnpublish = ({ _id, is_published, }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield models_1.Models.Category.findByIdAndUpdate(_id, {
+        $set: { is_published: !is_published },
+    });
+});
 exports.categoryService = {
     findAll,
     findOneByID,
     findOneByKey,
     storeResource,
     findOneByAndDelete,
-    findOneByIDAndUpdate
+    findOneByIDAndUpdate,
+    findOneByIdAndUpdatePublishUnpublish
 };

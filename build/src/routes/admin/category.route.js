@@ -35,3 +35,4 @@ exports.CategoryRouotes.post("/", categoryController.store);
 exports.CategoryRouotes.get("/:id", categoryController.show);
 exports.CategoryRouotes.put("/:id", categoryController.update);
 exports.CategoryRouotes.delete("/:id", categoryController.destroy);
+exports.CategoryRouotes.put("/publishUnpublish/:id", categoryController.publishUnpublish);

@@ -68,11 +68,25 @@ const findOneByAndDelete = async({_id}: {_id: Types.ObjectId}):Promise<ICategory
   return await Models.Category.findByIdAndDelete({_id})
 }
 
+/* specific resource publish status change */
+const findOneByIdAndUpdatePublishUnpublish = async ({
+  _id,
+  is_published,
+}: {
+  _id: Types.ObjectId,
+  is_published: boolean;
+}): Promise<ICategory | null> => {
+  return await Models.Category.findByIdAndUpdate(_id, {
+    $set: { is_published: !is_published },
+  });
+};
+
 export const categoryService = {
   findAll,
   findOneByID,
   findOneByKey,
   storeResource,
   findOneByAndDelete,
-  findOneByIDAndUpdate
+  findOneByIDAndUpdate,
+  findOneByIdAndUpdatePublishUnpublish
 };

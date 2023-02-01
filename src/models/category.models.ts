@@ -26,6 +26,10 @@ const categorySchema: Schema = new Schema<ICategoryCreateUpdate>({
       name: String,
     },
   ],
+  is_published: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 export const Category = model<ICategoryCreateUpdate>(
