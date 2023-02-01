@@ -51,13 +51,28 @@ const findOneByID = async({_id}: {_id:Types.ObjectId}):Promise<ICategory | null>
   return await Models.Category.findById({_id})
 }
 
+/* specific resource findOneByKey */
 const findOneByKey = async(params:any): Promise<ICategory | null> => {
   return await Models.Category.findOne({...params})
+}
+
+/* specific resoruce update */
+const findOneByIDAndUpdate = async({_id, documents}: {_id: Types.ObjectId, documents:ICategoryCreateUpdate}):Promise<ICategory | null> => {
+  return await Models.Category.findByIdAndUpdate(_id, {
+    $set:{...documents}
+  })
+}
+
+/* specific resrouce delete */
+const findOneByAndDelete = async({_id}: {_id: Types.ObjectId}):Promise<ICategory | null> => {
+  return await Models.Category.findByIdAndDelete({_id})
 }
 
 export const categoryService = {
   findAll,
   findOneByID,
+  findOneByKey,
   storeResource,
-  findOneByKey
+  findOneByAndDelete,
+  findOneByIDAndUpdate
 };

@@ -31,7 +31,7 @@ export const store = async (
     const { name, icon, parent, ancestors } = req.body;
 
     /* email exist */
-    const emailExist = await categoryService.findOneByKey({ name })
+    const emailExist = await categoryService.findOneByKey({ name });
     if (emailExist) {
       return res.status(409).json(
         await HttpErrorResponse({
@@ -65,6 +65,7 @@ export const store = async (
   }
 };
 
+/* sepecific resource */
 export const show = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
@@ -74,6 +75,71 @@ export const show = async (req: Request, res: Response, next: NextFunction) => {
     res.status(200).json({
       status: true,
       data: result,
+    });
+  } catch (error: any) {
+    console.log(error);
+    next(error);
+  }
+};
+
+/* updated */
+export const update = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const { name, icon, parent, ancestors } = req.body;
+
+    const documents: ICategoryCreateUpdate = {
+      name,
+      icon,
+      parent,
+      ancestors,
+    };
+    /* check unique name */
+    const existWithName = await categoryService.findOneByKey({ name });
+    if (existWithName && existWithName._id.toString() !== id) {
+      return res.status(409).json(
+        await HttpErrorResponse({
+          status: false,
+          errors: [
+            {
+              field: "Name",
+              message: "Category name already exists.",
+            },
+          ],
+        })
+      );
+    }
+
+    await categoryService.findOneByIDAndUpdate({
+      _id: new Types.ObjectId(id),
+      documents,
+    });
+    res.status(201).json({
+      status: true,
+      message: "Category udated.",
+    });
+  } catch (error: any) {
+    console.log(error);
+    next(error);
+  }
+};
+
+/* destory */
+export const destroy = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    await categoryService.findOneByAndDelete({ _id: new Types.ObjectId(id) });
+    res.status(200).json({
+      status: true,
+      message: "Category deleted.",
     });
   } catch (error: any) {
     console.log(error);

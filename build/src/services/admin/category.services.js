@@ -49,12 +49,25 @@ const storeResource = ({ documents, }) => __awaiter(void 0, void 0, void 0, func
 const findOneByID = ({ _id }) => __awaiter(void 0, void 0, void 0, function* () {
     return yield models_1.Models.Category.findById({ _id });
 });
+/* specific resource findOneByKey */
 const findOneByKey = (params) => __awaiter(void 0, void 0, void 0, function* () {
     return yield models_1.Models.Category.findOne(Object.assign({}, params));
+});
+/* specific resoruce update */
+const findOneByIDAndUpdate = ({ _id, documents }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield models_1.Models.Category.findByIdAndUpdate(_id, {
+        $set: Object.assign({}, documents)
+    });
+});
+/* specific resrouce delete */
+const findOneByAndDelete = ({ _id }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield models_1.Models.Category.findByIdAndDelete({ _id });
 });
 exports.categoryService = {
     findAll,
     findOneByID,
+    findOneByKey,
     storeResource,
-    findOneByKey
+    findOneByAndDelete,
+    findOneByIDAndUpdate
 };

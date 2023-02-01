@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.show = exports.store = exports.index = void 0;
+exports.destroy = exports.update = exports.show = exports.store = exports.index = void 0;
 const mongoose_1 = require("mongoose");
 const helper_1 = require("../../../src/helper");
 const category_services_1 = require("../../../src/services/admin/category.services");
@@ -61,6 +61,7 @@ const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.store = store;
+/* sepecific resource */
 const show = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
@@ -78,3 +79,58 @@ const show = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.show = show;
+/* updated */
+const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const { name, icon, parent, ancestors } = req.body;
+        const documents = {
+            name,
+            icon,
+            parent,
+            ancestors,
+        };
+        /* check unique name */
+        const existWithName = yield category_services_1.categoryService.findOneByKey({ name });
+        if (existWithName && existWithName._id.toString() !== id) {
+            return res.status(409).json(yield (0, helper_1.HttpErrorResponse)({
+                status: false,
+                errors: [
+                    {
+                        field: "Name",
+                        message: "Category name already exists.",
+                    },
+                ],
+            }));
+        }
+        yield category_services_1.categoryService.findOneByIDAndUpdate({
+            _id: new mongoose_1.Types.ObjectId(id),
+            documents,
+        });
+        res.status(201).json({
+            status: true,
+            message: "Category udated.",
+        });
+    }
+    catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+exports.update = update;
+/* destory */
+const destroy = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        yield category_services_1.categoryService.findOneByAndDelete({ _id: new mongoose_1.Types.ObjectId(id) });
+        res.status(200).json({
+            status: true,
+            message: "Category deleted.",
+        });
+    }
+    catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+exports.destroy = destroy;

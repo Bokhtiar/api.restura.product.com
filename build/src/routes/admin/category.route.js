@@ -33,3 +33,5 @@ exports.CategoryRouotes = express_1.default.Router();
 exports.CategoryRouotes.get("/", categoryController.index);
 exports.CategoryRouotes.post("/", categoryController.store);
 exports.CategoryRouotes.get("/:id", categoryController.show);
+exports.CategoryRouotes.put("/:id", categoryController.update);
+exports.CategoryRouotes.delete("/:id", categoryController.destroy);
