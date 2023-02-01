@@ -8,17 +8,7 @@ const categorySchema = new mongoose_1.Schema({
         required: true,
         trim: true,
     },
-    slug: {
-        type: String,
-        required: true,
-        trim: true,
-    },
     icon: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    image: {
         type: String,
         required: true,
         trim: true,
@@ -35,7 +25,6 @@ const categorySchema = new mongoose_1.Schema({
                 ref: "Category",
             },
             name: String,
-            slug: String,
         },
     ],
 });

@@ -6,7 +6,7 @@ export const dbConnection = async () => {
     // const PROD_DB_URI: any = process.env.DB_URI;
     // const TEST_DB_URI: any = process.env.TEST_DB_URI;
     // const ENVIRONMENT: any = process.env.ENVIRONMENT;
-
+ 
     // const DB_URI: any = ENVIRONMENT === "TEST" ? TEST_DB_URI : PROD_DB_URI;
     const DB_URI: any = process.env.DB_URI;
     mongoose.set("strictQuery", false);

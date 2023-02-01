@@ -7,17 +7,7 @@ const categorySchema: Schema = new Schema<ICategoryCreateUpdate>({
     required: true,
     trim: true,
   },
-  slug: {
-    type: String,
-    required: true,
-    trim: true,
-  },
   icon: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  image: {
     type: String,
     required: true,
     trim: true,
@@ -34,7 +24,6 @@ const categorySchema: Schema = new Schema<ICategoryCreateUpdate>({
         ref: "Category",
       },
       name: String,
-      slug: String,
     },
   ],
 });
