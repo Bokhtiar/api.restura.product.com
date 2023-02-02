@@ -28,11 +28,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productRouter = void 0;
 const express_1 = __importDefault(require("express"));
-const product_validators_1 = require("../../validators/product.validators");
 const productController = __importStar(require("../../controllers/admin/product.controller"));
 exports.productRouter = express_1.default.Router();
 exports.productRouter.get("/", productController.index);
-exports.productRouter.post("/", product_validators_1.productValidators.createUpdate, productController.store);
+exports.productRouter.post("/", productController.store);
 exports.productRouter.get("/:id", productController.show);
 exports.productRouter.put("/:id", productController.update);
 exports.productRouter.delete("/:id", productController.destroy);

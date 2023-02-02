@@ -1,9 +1,11 @@
 import { Router } from "express";
-import { CategoryRouotes } from "./admin/category.route";
+import { categoryRouotes } from "./admin/category.route";
 import { productRouter } from "./admin/product.route";
+import { variantRoutes } from "./admin/variant.route";
 
 export const router: Router = Router();
 
-router.use("/category", CategoryRouotes);
+router.use("/category", categoryRouotes);
 router.use("/product", productRouter)
+router.use("/variant", variantRoutes)
    

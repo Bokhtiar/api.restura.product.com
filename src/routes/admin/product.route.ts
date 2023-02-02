@@ -5,7 +5,7 @@ import * as productController from "../../controllers/admin/product.controller";
 export const productRouter = express.Router();
 
 productRouter.get("/", productController.index);
-productRouter.post("/", productValidators.createUpdate, productController.store)
+productRouter.post("/", productController.store)
 productRouter.get("/:id", productController.show)
 productRouter.put("/:id", productController.update)
 productRouter.delete("/:id", productController.destroy)

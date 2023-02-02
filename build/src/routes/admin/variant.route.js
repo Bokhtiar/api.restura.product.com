@@ -26,13 +26,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.categoryRouotes = void 0;
+exports.variantRoutes = void 0;
 const express_1 = __importDefault(require("express"));
-const categoryController = __importStar(require("../../controllers/admin/category.controller"));
-exports.categoryRouotes = express_1.default.Router();
-exports.categoryRouotes.get("/", categoryController.index);
-exports.categoryRouotes.post("/", categoryController.store);
-exports.categoryRouotes.get("/:id", categoryController.show);
-exports.categoryRouotes.put("/:id", categoryController.update);
-exports.categoryRouotes.delete("/:id", categoryController.destroy);
-exports.categoryRouotes.put("/publishUnpublish/:id", categoryController.publishUnpublish);
+const variantController = __importStar(require("../../controllers/admin/variant.controller"));
+exports.variantRoutes = express_1.default.Router();
+exports.variantRoutes.get("/", variantController.index);
+exports.variantRoutes.post("/", variantController.store);

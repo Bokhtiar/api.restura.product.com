@@ -25,15 +25,15 @@ const createUpdate = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         product: {
             type: "string",
             required: true,
-            message: "Price is required.",
+            message: "Product is required.",
         },
         price: {
             type: "string",
             required: true,
-            message: "Components is required.",
+            message: "Price is required.",
         },
         image: {
-            type: "string",
+            type: "link",
             required: true,
             message: "Image is required.",
         },
