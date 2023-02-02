@@ -10,7 +10,7 @@ export interface IProduct {
   cooking_time: string;
   offer_start?: string;
   offer_end?: string;
-  is_published: string;
+  is_published: boolean;
 }
 
 export interface IProductCreateUpdate {
@@ -22,5 +22,5 @@ export interface IProductCreateUpdate {
   cooking_time: string;
   offer_start?: string;
   offer_end?: string;
-  is_published: string;
+  is_published: boolean;
 }
