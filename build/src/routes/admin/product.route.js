@@ -35,3 +35,5 @@ exports.productRouter.get("/", productController.index);
 exports.productRouter.post("/", product_validators_1.productValidators.createUpdate, productController.store);
 exports.productRouter.get("/:id", productController.show);
 exports.productRouter.put("/:id", productController.update);
+exports.productRouter.delete("/:id", productController.destroy);
+exports.productRouter.put("/publishedUnpublished/:id", productController.publishedUnpublished);

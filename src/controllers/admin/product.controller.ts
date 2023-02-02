@@ -40,7 +40,7 @@ export const store = async (
       offer_start,
       offer_end,
       is_published,
-    }= req.body;
+    } = req.body;
 
     /* name exists */
     const nameExist = await productServices.findOneByKey({ name });
@@ -107,7 +107,7 @@ export const update = async (
   next: NextFunction
 ) => {
   try {
-    const {id} = req.params
+    const { id } = req.params;
     const {
       name,
       price,
@@ -118,7 +118,7 @@ export const update = async (
       offer_start,
       offer_end,
       is_published,
-    }= req.body;
+    } = req.body;
 
     /* check unique name */
     const existWithName = await productServices.findOneByKey({ name });
@@ -136,7 +136,7 @@ export const update = async (
       );
     }
 
-    const documents:IProductCreateUpdate = {
+    const documents: IProductCreateUpdate = {
       name,
       price,
       components,
@@ -146,15 +146,82 @@ export const update = async (
       offer_start,
       offer_end,
       is_published,
-    }
+    };
 
-    await productServices.findOneByIdAndUpdate({_id: new Types.ObjectId(id), documents})
+    await productServices.findOneByIdAndUpdate({
+      _id: new Types.ObjectId(id),
+      documents,
+    });
 
     res.status(201).json({
       status: true,
-      message: "Product Updated."
-    })
+      message: "Product Updated.",
+    });
+  } catch (error: any) {
+    console.log(error);
+    next(error);
+  }
+};
+
+/* specific resoruce delete */
+export const destroy = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    await productServices.findOneByIDdAndDelete({
+      _id: new Types.ObjectId(id),
+    });
+    res.status(200).json({
+      status: true,
+      message: "Product Deleted.",
+    });
+  } catch (error: any) {
+    console.log(error);
+    next(error);
+  }
+};
+
+/* specific resoruce published Unpublished */
+export const publishedUnpublished = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
     
+    console.log("id", id);
+    
+    /* availabe product */
+    const availabeProduct = await productServices.findOneByID({
+      _id: new Types.ObjectId(id),
+    });
+    if (!availabeProduct) {
+      return res.status(409).json(
+        await HttpErrorResponse({
+          status: false,
+          errors: [
+            {
+              field: "Product",
+              message: "Product not avaialable.",
+            },
+          ],
+        })
+      );
+    }
+
+    await productServices.publishedUnpublished({
+      _id: new Types.ObjectId(id),
+      is_published: availabeProduct.is_published,
+    });
+
+    res.status(200).json({
+      status: true,
+      message: "Product updated"
+    })
   } catch (error: any) {
     console.log(error);
     next(error);

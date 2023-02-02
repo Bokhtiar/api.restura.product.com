@@ -34,10 +34,22 @@ const findOneByIdAndUpdate = ({ _id, documents }) => __awaiter(void 0, void 0, v
         $set: Object.assign({}, documents)
     });
 });
+/* specific resrouce delete */
+const findOneByIDdAndDelete = ({ _id }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield models_1.Models.Product.findByIdAndDelete({ _id });
+});
+/* specefic resoruce publishedUnpublished */
+const publishedUnpublished = ({ _id, is_published }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield models_1.Models.Product.findByIdAndUpdate(_id, {
+        $set: { is_published: !is_published }
+    });
+});
 exports.productServices = {
     findAll,
     findOneByID,
     findOneByKey,
     storeDocuments,
-    findOneByIdAndUpdate
+    publishedUnpublished,
+    findOneByIdAndUpdate,
+    findOneByIDdAndDelete
 };

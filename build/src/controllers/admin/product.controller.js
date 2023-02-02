@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.update = exports.show = exports.store = exports.index = void 0;
+exports.publishedUnpublished = exports.destroy = exports.update = exports.show = exports.store = exports.index = void 0;
 const helper_1 = require("../../helper");
 const product_services_1 = require("../../services/admin/product.services");
 const mongoose_1 = require("mongoose");
@@ -115,10 +115,13 @@ const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
             offer_end,
             is_published,
         };
-        yield product_services_1.productServices.findOneByIdAndUpdate({ _id: new mongoose_1.Types.ObjectId(id), documents });
+        yield product_services_1.productServices.findOneByIdAndUpdate({
+            _id: new mongoose_1.Types.ObjectId(id),
+            documents,
+        });
         res.status(201).json({
             status: true,
-            message: "Product Updated."
+            message: "Product Updated.",
         });
     }
     catch (error) {
@@ -127,3 +130,56 @@ const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.update = update;
+/* specific resoruce delete */
+const destroy = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        yield product_services_1.productServices.findOneByIDdAndDelete({
+            _id: new mongoose_1.Types.ObjectId(id),
+        });
+        res.status(200).json({
+            status: true,
+            message: "Product Deleted.",
+        });
+    }
+    catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+exports.destroy = destroy;
+/* specific resoruce published Unpublished */
+const publishedUnpublished = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        console.log("id", id);
+        /* availabe product */
+        const availabeProduct = yield product_services_1.productServices.findOneByID({
+            _id: new mongoose_1.Types.ObjectId(id),
+        });
+        if (!availabeProduct) {
+            return res.status(409).json(yield (0, helper_1.HttpErrorResponse)({
+                status: false,
+                errors: [
+                    {
+                        field: "Product",
+                        message: "Product not avaialable.",
+                    },
+                ],
+            }));
+        }
+        yield product_services_1.productServices.publishedUnpublished({
+            _id: new mongoose_1.Types.ObjectId(id),
+            is_published: availabeProduct.is_published,
+        });
+        res.status(200).json({
+            status: true,
+            message: "Product updated"
+        });
+    }
+    catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+exports.publishedUnpublished = publishedUnpublished;
