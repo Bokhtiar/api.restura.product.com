@@ -24,8 +24,20 @@ const storeDocuments = ({ documents, }) => __awaiter(void 0, void 0, void 0, fun
     const newProduct = new models_1.Models.Product(Object.assign({}, documents));
     return yield newProduct.save();
 });
+/* specific resource findOneByID */
+const findOneByID = ({ _id }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield models_1.Models.Product.findById({ _id });
+});
+/* specific resoruce findOneByUPdate */
+const findOneByIdAndUpdate = ({ _id, documents }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield models_1.Models.Product.findByIdAndUpdate(_id, {
+        $set: Object.assign({}, documents)
+    });
+});
 exports.productServices = {
     findAll,
+    findOneByID,
     findOneByKey,
     storeDocuments,
+    findOneByIdAndUpdate
 };

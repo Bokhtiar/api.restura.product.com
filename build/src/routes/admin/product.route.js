@@ -33,3 +33,5 @@ const productController = __importStar(require("../../controllers/admin/product.
 exports.productRouter = express_1.default.Router();
 exports.productRouter.get("/", productController.index);
 exports.productRouter.post("/", product_validators_1.productValidators.createUpdate, productController.store);
+exports.productRouter.get("/:id", productController.show);
+exports.productRouter.put("/:id", productController.update);

@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { IProductCreateUpdate } from "../../types/product.types";
 import { HttpErrorResponse } from "../../helper";
 import { productServices } from "../../services/admin/product.services";
+import { Types } from "mongoose";
 
 /* list of resoruce */
 export const index = async (
@@ -10,7 +11,7 @@ export const index = async (
   next: NextFunction
 ) => {
   try {
-    const results = await productServices.findAll()
+    const results = await productServices.findAll();
 
     res.status(200).json({
       status: true,
@@ -39,10 +40,10 @@ export const store = async (
       offer_start,
       offer_end,
       is_published,
-    } = req.body;
+    }= req.body;
 
     /* name exists */
-    const nameExist = await productServices.findOneByKey({name})
+    const nameExist = await productServices.findOneByKey({ name });
     if (nameExist) {
       return res.status(409).json(
         await HttpErrorResponse({
@@ -51,6 +52,84 @@ export const store = async (
             {
               field: "name",
               message: "Name already exist.",
+            },
+          ],
+        })
+      );
+    }
+
+    const documents: IProductCreateUpdate = {
+      name,
+      price,
+      components,
+      description,
+      image,
+      cooking_time,
+      offer_start,
+      offer_end,
+      is_published,
+    };
+
+    await productServices.storeDocuments({ documents });
+
+    res.status(200).json({
+      status: true,
+      message: "Product created.",
+    });
+  } catch (error: any) {
+    console.log(error);
+    next(error);
+  }
+};
+
+/* specific resoruce show */
+export const show = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+
+    const result = await productServices.findOneByID({
+      _id: new Types.ObjectId(id),
+    });
+    res.status(200).json({
+      status: true,
+      data: result,
+    });
+  } catch (error: any) {
+    console.log(error);
+    next(error);
+  }
+};
+
+/* specific resrouce update */
+export const update = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const {id} = req.params
+    const {
+      name,
+      price,
+      components,
+      description,
+      image,
+      cooking_time,
+      offer_start,
+      offer_end,
+      is_published,
+    }= req.body;
+
+    /* check unique name */
+    const existWithName = await productServices.findOneByKey({ name });
+    if (existWithName && existWithName._id.toString() !== id) {
+      return res.status(409).json(
+        await HttpErrorResponse({
+          status: false,
+          errors: [
+            {
+              field: "Name",
+              message: "Product name already exists.",
             },
           ],
         })
@@ -69,13 +148,13 @@ export const store = async (
       is_published,
     }
 
-    await productServices.storeDocuments({documents})
+    await productServices.findOneByIdAndUpdate({_id: new Types.ObjectId(id), documents})
 
-    res.status(200).json({
+    res.status(201).json({
       status: true,
-      message: "Product created."
+      message: "Product Updated."
     })
-
+    
   } catch (error: any) {
     console.log(error);
     next(error);

@@ -9,9 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.store = exports.index = void 0;
+exports.update = exports.show = exports.store = exports.index = void 0;
 const helper_1 = require("../../helper");
 const product_services_1 = require("../../services/admin/product.services");
+const mongoose_1 = require("mongoose");
 /* list of resoruce */
 const index = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -58,7 +59,7 @@ const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         yield product_services_1.productServices.storeDocuments({ documents });
         res.status(200).json({
             status: true,
-            message: "Product created."
+            message: "Product created.",
         });
     }
     catch (error) {
@@ -67,3 +68,62 @@ const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.store = store;
+/* specific resoruce show */
+const show = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const result = yield product_services_1.productServices.findOneByID({
+            _id: new mongoose_1.Types.ObjectId(id),
+        });
+        res.status(200).json({
+            status: true,
+            data: result,
+        });
+    }
+    catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+exports.show = show;
+/* specific resrouce update */
+const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const { name, price, components, description, image, cooking_time, offer_start, offer_end, is_published, } = req.body;
+        /* check unique name */
+        const existWithName = yield product_services_1.productServices.findOneByKey({ name });
+        if (existWithName && existWithName._id.toString() !== id) {
+            return res.status(409).json(yield (0, helper_1.HttpErrorResponse)({
+                status: false,
+                errors: [
+                    {
+                        field: "Name",
+                        message: "Product name already exists.",
+                    },
+                ],
+            }));
+        }
+        const documents = {
+            name,
+            price,
+            components,
+            description,
+            image,
+            cooking_time,
+            offer_start,
+            offer_end,
+            is_published,
+        };
+        yield product_services_1.productServices.findOneByIdAndUpdate({ _id: new mongoose_1.Types.ObjectId(id), documents });
+        res.status(201).json({
+            status: true,
+            message: "Product Updated."
+        });
+    }
+    catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+exports.update = update;
