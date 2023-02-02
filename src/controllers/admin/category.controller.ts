@@ -30,9 +30,9 @@ export const store = async (
   try {
     const { name, icon, parent, ancestors } = req.body;
 
-    /* email exist */
-    const emailExist = await categoryService.findOneByKey({ name });
-    if (emailExist) {
+    /* name exist */
+    const nameExist = await categoryService.findOneByKey({ name });
+    if (nameExist) {
       return res.status(409).json(
         await HttpErrorResponse({
           status: false,

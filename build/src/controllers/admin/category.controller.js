@@ -30,9 +30,9 @@ exports.index = index;
 const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name, icon, parent, ancestors } = req.body;
-        /* email exist */
-        const emailExist = yield category_services_1.categoryService.findOneByKey({ name });
-        if (emailExist) {
+        /* name exist */
+        const nameExist = yield category_services_1.categoryService.findOneByKey({ name });
+        if (nameExist) {
             return res.status(409).json(yield (0, helper_1.HttpErrorResponse)({
                 status: false,
                 errors: [

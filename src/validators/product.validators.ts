@@ -24,10 +24,10 @@ const createUpdate = async (
       message: "Components is required.",
     },
     image: {
-        type: "link",
-        required: true,
-        message: "Image is required.",
-      },
+      type: "string",
+      required: true,
+      message: "Image is required."
+    }
   };
 
   /* Execute the validator */

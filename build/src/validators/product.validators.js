@@ -33,10 +33,10 @@ const createUpdate = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
             message: "Components is required.",
         },
         image: {
-            type: "link",
+            type: "string",
             required: true,
-            message: "Image is required.",
-        },
+            message: "Image is required."
+        }
     };
     /* Execute the validator */
     const validator = new async_validator_1.default(descriptor);

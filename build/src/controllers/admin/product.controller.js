@@ -9,13 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.index = void 0;
+exports.store = exports.index = void 0;
+const helper_1 = require("../../helper");
+const product_services_1 = require("../../services/admin/product.services");
 /* list of resoruce */
 const index = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const results = yield product_services_1.productServices.findAll();
         res.status(200).json({
             status: true,
-            message: "Product list",
+            data: results,
         });
     }
     catch (error) {
@@ -24,3 +27,43 @@ const index = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.index = index;
+/* store documents */
+const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { name, price, components, description, image, cooking_time, offer_start, offer_end, is_published, } = req.body;
+        /* name exists */
+        const nameExist = yield product_services_1.productServices.findOneByKey({ name });
+        if (nameExist) {
+            return res.status(409).json(yield (0, helper_1.HttpErrorResponse)({
+                status: false,
+                errors: [
+                    {
+                        field: "name",
+                        message: "Name already exist.",
+                    },
+                ],
+            }));
+        }
+        const documents = {
+            name,
+            price,
+            components,
+            description,
+            image,
+            cooking_time,
+            offer_start,
+            offer_end,
+            is_published,
+        };
+        yield product_services_1.productServices.storeDocuments({ documents });
+        res.status(200).json({
+            status: true,
+            message: "Product created."
+        });
+    }
+    catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+exports.store = store;
