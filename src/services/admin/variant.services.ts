@@ -53,10 +53,34 @@ const findOneByIdAndUpdate = async ({
   });
 };
 
+/* specific resoruce delete */
+const findOneByIdAndDelete = async ({
+  _id,
+}: {
+  _id: Types.ObjectId;
+}): Promise<IVariant | null> => {
+  return await Models.Variant.findByIdAndDelete({ _id });
+};
+
+/* specific resoruce publishedUnpublish */
+const publishedUnpublished = async ({
+  _id,
+  is_published,
+}: {
+  _id: Types.ObjectId;
+  is_published: boolean;
+}): Promise<IVariant | null> => {
+  return await Models.Variant.findByIdAndUpdate(_id, {
+    $set: { is_published: !is_published },
+  });
+};
+
 export const variantService = {
   findAll,
   findOneById,
   findOneByKey,
   storeDocument,
-  findOneByIdAndUpdate
+  findOneByIdAndDelete,
+  findOneByIdAndUpdate,
+  publishedUnpublished,
 };

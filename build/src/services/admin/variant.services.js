@@ -34,10 +34,22 @@ const findOneByIdAndUpdate = ({ _id, documents, }) => __awaiter(void 0, void 0, 
         $set: Object.assign({}, documents),
     });
 });
+/* specific resoruce delete */
+const findOneByIdAndDelete = ({ _id, }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield models_1.Models.Variant.findByIdAndDelete({ _id });
+});
+/* specific resoruce publishedUnpublish */
+const publishedUnpublished = ({ _id, is_published, }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield models_1.Models.Variant.findByIdAndUpdate(_id, {
+        $set: { is_published: !is_published },
+    });
+});
 exports.variantService = {
     findAll,
     findOneById,
     findOneByKey,
     storeDocument,
-    findOneByIdAndUpdate
+    findOneByIdAndDelete,
+    findOneByIdAndUpdate,
+    publishedUnpublished,
 };

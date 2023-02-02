@@ -34,3 +34,5 @@ exports.variantRoutes.get("/", variantController.index);
 exports.variantRoutes.post("/", variantController.store);
 exports.variantRoutes.get("/:id", variantController.show);
 exports.variantRoutes.put("/:id", variantController.update);
+exports.variantRoutes.delete("/:id", variantController.destroy);
+exports.variantRoutes.put("/publishedUnpublished/:id", variantController.publishedUnpublished);

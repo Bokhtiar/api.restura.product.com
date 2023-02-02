@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.update = exports.show = exports.store = exports.index = void 0;
+exports.publishedUnpublished = exports.destroy = exports.update = exports.show = exports.store = exports.index = void 0;
 const mongoose_1 = require("mongoose");
 const helper_1 = require("../../config/helper");
 const variant_services_1 = require("../../services/admin/variant.services");
@@ -128,3 +128,53 @@ const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.update = update;
+/* specific resource by delete */
+const destroy = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        yield variant_services_1.variantService.findOneByIdAndDelete({ _id: new mongoose_1.Types.ObjectId(id) });
+        res.status(200).json({
+            status: true,
+            message: "Product variant deleted",
+        });
+    }
+    catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+exports.destroy = destroy;
+/* specific resource publishedUnpublished */
+const publishedUnpublished = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        /* available variant */
+        const availableVariant = yield variant_services_1.variantService.findOneById({
+            _id: new mongoose_1.Types.ObjectId(id),
+        });
+        if (!availableVariant) {
+            return res.status(409).json(yield (0, helper_1.HttpErrorResponse)({
+                status: false,
+                errors: [
+                    {
+                        field: "Variant",
+                        message: "Variant  already exists.",
+                    },
+                ],
+            }));
+        }
+        yield variant_services_1.variantService.publishedUnpublished({
+            _id: new mongoose_1.Types.ObjectId(id),
+            is_published: availableVariant.is_published,
+        });
+        res.status(200).json({
+            status: true,
+            message: "Product variant updated.",
+        });
+    }
+    catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+exports.publishedUnpublished = publishedUnpublished;

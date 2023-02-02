@@ -133,7 +133,67 @@ export const update = async (
       status: true,
       message: "Variant Updated.",
     });
-    
+  } catch (error: any) {
+    console.log(error);
+    next(error);
+  }
+};
+
+/* specific resource by delete */
+export const destroy = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    await variantService.findOneByIdAndDelete({ _id: new Types.ObjectId(id) });
+    res.status(200).json({
+      status: true,
+      message: "Product variant deleted",
+    });
+  } catch (error: any) {
+    console.log(error);
+    next(error);
+  }
+};
+
+/* specific resource publishedUnpublished */
+export const publishedUnpublished = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+
+    /* available variant */
+    const availableVariant = await variantService.findOneById({
+      _id: new Types.ObjectId(id),
+    });
+    if (!availableVariant) {
+      return res.status(409).json(
+        await HttpErrorResponse({
+          status: false,
+          errors: [
+            {
+              field: "Variant",
+              message: "Variant  already exists.",
+            },
+          ],
+        })
+      );
+    }
+
+    await variantService.publishedUnpublished({
+      _id: new Types.ObjectId(id),
+      is_published: availableVariant.is_published,
+    });
+
+    res.status(200).json({
+      status: true,
+      message: "Product variant updated.",
+    });
   } catch (error: any) {
     console.log(error);
     next(error);
