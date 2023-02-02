@@ -32,3 +32,5 @@ const variantController = __importStar(require("../../controllers/admin/variant.
 exports.variantRoutes = express_1.default.Router();
 exports.variantRoutes.get("/", variantController.index);
 exports.variantRoutes.post("/", variantController.store);
+exports.variantRoutes.get("/:id", variantController.show);
+exports.variantRoutes.put("/:id", variantController.update);

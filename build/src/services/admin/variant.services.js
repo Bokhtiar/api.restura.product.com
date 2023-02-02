@@ -24,8 +24,20 @@ const storeDocument = ({ documents, }) => __awaiter(void 0, void 0, void 0, func
 const findOneByKey = ({ product, name, }) => __awaiter(void 0, void 0, void 0, function* () {
     return yield models_1.Models.Variant.findOne({ product: product, name: name });
 });
+/* specific resoruce findOneById */
+const findOneById = ({ _id, }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield models_1.Models.Variant.findById({ _id });
+});
+/*specific resoruce findOneByIdAndUpdate */
+const findOneByIdAndUpdate = ({ _id, documents, }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield models_1.Models.Variant.findByIdAndUpdate(_id, {
+        $set: Object.assign({}, documents),
+    });
+});
 exports.variantService = {
     findAll,
-    storeDocument,
+    findOneById,
     findOneByKey,
+    storeDocument,
+    findOneByIdAndUpdate
 };

@@ -31,8 +31,32 @@ const findOneByKey = async ({
   return await Models.Variant.findOne({ product: product, name: name });
 };
 
+/* specific resoruce findOneById */
+const findOneById = async ({
+  _id,
+}: {
+  _id: Types.ObjectId;
+}): Promise<IVariant | null> => {
+  return await Models.Variant.findById({ _id });
+};
+
+/*specific resoruce findOneByIdAndUpdate */
+const findOneByIdAndUpdate = async ({
+  _id,
+  documents,
+}: {
+  _id: Types.ObjectId;
+  documents: IVariantCreateUpdate;
+}) => {
+  return await Models.Variant.findByIdAndUpdate(_id, {
+    $set: { ...documents },
+  });
+};
+
 export const variantService = {
   findAll,
-  storeDocument,
+  findOneById,
   findOneByKey,
+  storeDocument,
+  findOneByIdAndUpdate
 };

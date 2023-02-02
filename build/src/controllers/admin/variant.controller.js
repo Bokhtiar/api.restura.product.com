@@ -9,10 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.store = exports.index = void 0;
+exports.update = exports.show = exports.store = exports.index = void 0;
 const mongoose_1 = require("mongoose");
 const helper_1 = require("../../config/helper");
 const variant_services_1 = require("../../services/admin/variant.services");
+/* list of resoruce */
 const index = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const resutls = yield variant_services_1.variantService.findAll();
@@ -66,3 +67,64 @@ const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.store = store;
+/* specific resource show */
+const show = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const result = yield variant_services_1.variantService.findOneById({
+            _id: new mongoose_1.Types.ObjectId(id),
+        });
+        res.status(200).json({
+            status: true,
+            data: result,
+        });
+    }
+    catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+exports.show = show;
+/* specific resoruce update */
+const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const { name, product, image, price } = req.body;
+        /* exist variant */
+        const vaiantExist = yield variant_services_1.variantService.findOneByKey({
+            product: new mongoose_1.Types.ObjectId(product),
+            name: name,
+        });
+        if (vaiantExist && vaiantExist._id.toString() !== id) {
+            return res.status(409).json(yield (0, helper_1.HttpErrorResponse)({
+                status: false,
+                errors: [
+                    {
+                        field: "Variant",
+                        message: "Variant name already exists.",
+                    },
+                ],
+            }));
+        }
+        const documents = {
+            name,
+            product,
+            image,
+            price,
+            is_published: true,
+        };
+        yield variant_services_1.variantService.findOneByIdAndUpdate({
+            _id: new mongoose_1.Types.ObjectId(id),
+            documents: documents,
+        });
+        res.status(200).json({
+            status: true,
+            message: "Variant Updated.",
+        });
+    }
+    catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+exports.update = update;
