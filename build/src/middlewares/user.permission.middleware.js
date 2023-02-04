@@ -21,10 +21,11 @@ const userPermission = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                 message: "Authorization token not found.",
             });
         }
+        console.log("token");
         // decode token
         const splitToken = yield token.split(" ")[1];
         const decode = yield jwt.verify(splitToken, process.env.JWT_SECRET);
-        console.log(decode);
+        console.log("user", decode);
         if (decode.role !== "user") {
             return res.status(410).json({
                 status: false,
