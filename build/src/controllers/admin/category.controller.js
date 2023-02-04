@@ -53,7 +53,7 @@ const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         yield category_services_1.categoryService.storeResource({ documents });
         res.status(200).json({
             status: true,
-            message: "category",
+            message: "Category save",
         });
     }
     catch (error) {

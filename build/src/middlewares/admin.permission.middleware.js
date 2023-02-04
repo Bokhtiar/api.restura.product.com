@@ -9,10 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userPermission = void 0;
+exports.adminPermission = void 0;
 const jwt = require("jsonwebtoken");
-/* user permission handle */
-const userPermission = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+/* admin permission handle */
+const adminPermission = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const token = yield req.headers.authorization;
         if (!token) {
@@ -52,4 +52,4 @@ const userPermission = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         }
     }
 });
-exports.userPermission = userPermission;
+exports.adminPermission = adminPermission;

@@ -13,7 +13,7 @@ exports.categoryService = void 0;
 const models_1 = require("../../models");
 /* list of resurce */
 const findAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    return yield models_1.Models.Category.find({ parent: null });
+    return yield models_1.Models.Category.find({}, { name: 1, icon: 1 });
 });
 /* nested category insert */
 const buildAncestors = (id, parent_id) => __awaiter(void 0, void 0, void 0, function* () {

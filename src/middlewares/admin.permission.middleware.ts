@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 const jwt = require("jsonwebtoken");
 
-/* user permission handle */
-export const userPermission = async (
+/* admin permission handle */
+export const adminPermission = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -19,7 +19,7 @@ export const userPermission = async (
     // decode token
     const splitToken = await token.split(" ")[1];
     const decode = await jwt.verify(splitToken, process.env.JWT_SECRET);
-    
+
     if (decode.role !== "admin") {
       return res.status(410).json({
         status: false,

@@ -58,7 +58,7 @@ export const store = async (
 
     res.status(200).json({
       status: true,
-      message: "category",
+      message: "Category save",
     });
   } catch (error: any) {
     console.log(error);
