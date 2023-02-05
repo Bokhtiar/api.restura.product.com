@@ -25,9 +25,14 @@ export const show = async (req: Request, res: Response, next: NextFunction) => {
     const result = await userProductService.findOneById({
       _id: new Types.ObjectId(id),
     });
+
+    const variant = await userProductService.productHasAssingVariant({
+      _id: new Types.ObjectId(id),
+    });
+
     res.status(200).json({
       status: true,
-      data: result,
+      data: { "product": result, "variant": variant },
     });
   } catch (error: any) {
     console.log(error);

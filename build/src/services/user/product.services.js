@@ -19,7 +19,12 @@ const findAll = () => __awaiter(void 0, void 0, void 0, function* () {
 const findOneById = ({ _id, }) => __awaiter(void 0, void 0, void 0, function* () {
     return yield models_1.Models.Product.findById({ _id });
 });
+/* product has assing variant product findAll */
+const productHasAssingVariant = ({ _id }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield models_1.Models.Variant.find({ product: _id, is_published: true });
+});
 exports.userProductService = {
     findAll,
     findOneById,
+    productHasAssingVariant
 };

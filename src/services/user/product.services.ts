@@ -1,6 +1,7 @@
 import { Models } from "../../models";
 import { Types } from "mongoose";
 import { IProduct } from "../../types/product.types";
+import { IVariant } from "../../types/variant.type";
 
 /* findAll  */
 const findAll = async (): Promise<IProduct[] | []> => {
@@ -16,7 +17,14 @@ const findOneById = async ({
   return await Models.Product.findById({ _id });
 };
 
+
+/* product has assing variant product findAll */
+const productHasAssingVariant = async({_id}: {_id:Types.ObjectId}) : Promise<IVariant[] | []> => {
+  return await Models.Variant.find({product: _id, is_published: true})
+}
+
 export const userProductService = {
   findAll,
   findOneById,
+  productHasAssingVariant
 };

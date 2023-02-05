@@ -32,9 +32,12 @@ const show = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
         const result = yield product_services_1.userProductService.findOneById({
             _id: new mongoose_1.Types.ObjectId(id),
         });
+        const variant = yield product_services_1.userProductService.productHasAssingVariant({
+            _id: new mongoose_1.Types.ObjectId(id),
+        });
         res.status(200).json({
             status: true,
-            data: result,
+            data: { "product": result, "variant": variant },
         });
     }
     catch (error) {
