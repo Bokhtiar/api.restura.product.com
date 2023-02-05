@@ -4,7 +4,7 @@ import { Types } from "mongoose";
 
 /* findAll  */
 const findAll = async (): Promise<ICategory[] | []> => {
-  return await Models.Category.find({}, { name: 1, icon: 1 });
+  return await Models.Category.find({is_published: true}, { name: 1, icon: 1 });
 };
 
 /* findOneById */

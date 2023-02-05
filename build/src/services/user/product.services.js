@@ -9,17 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userCategoryService = void 0;
+exports.userProductService = void 0;
 const models_1 = require("../../models");
 /* findAll  */
 const findAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    return yield models_1.Models.Category.find({ is_published: true }, { name: 1, icon: 1 });
+    return yield models_1.Models.Product.find({ is_published: true });
 });
 /* findOneById */
 const findOneById = ({ _id, }) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield models_1.Models.Category.findById({ _id }, { name: 1, icon: 1 });
+    return yield models_1.Models.Product.findById({ _id });
 });
-exports.userCategoryService = {
+exports.userProductService = {
     findAll,
     findOneById,
 };
