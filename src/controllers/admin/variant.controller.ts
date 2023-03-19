@@ -129,7 +129,7 @@ export const update = async (
       documents: documents,
     });
 
-    res.status(200).json({
+    res.status(201).json({
       status: true,
       message: "Variant Updated.",
     });
@@ -190,7 +190,7 @@ export const publishedUnpublished = async (
       is_published: availableVariant.is_published,
     });
 
-    res.status(200).json({
+    res.status(201).json({
       status: true,
       message: "Product variant updated.",
     });

@@ -4,7 +4,7 @@ import { IVariant, IVariantCreateUpdate } from "../../types/variant.type";
 
 /* list of resource */
 const findAll = async (): Promise<IVariant[] | []> => {
-  return await Models.Variant.find();
+  return await Models.Variant.find().populate('product', 'name');
 };
 
 /* store docuement */

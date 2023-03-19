@@ -117,7 +117,7 @@ const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
             _id: new mongoose_1.Types.ObjectId(id),
             documents: documents,
         });
-        res.status(200).json({
+        res.status(201).json({
             status: true,
             message: "Variant Updated.",
         });
@@ -167,7 +167,7 @@ const publishedUnpublished = (req, res, next) => __awaiter(void 0, void 0, void 
             _id: new mongoose_1.Types.ObjectId(id),
             is_published: availableVariant.is_published,
         });
-        res.status(200).json({
+        res.status(201).json({
             status: true,
             message: "Product variant updated.",
         });

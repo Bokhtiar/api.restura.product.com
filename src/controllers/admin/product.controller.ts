@@ -72,7 +72,7 @@ export const store = async (
 
     await productServices.storeDocuments({ documents });
 
-    res.status(200).json({
+    res.status(201).json({
       status: true,
       message: "Product created.",
     });
@@ -192,9 +192,6 @@ export const publishedUnpublished = async (
 ) => {
   try {
     const { id } = req.params;
-    
-    console.log("id", id);
-    
     /* availabe product */
     const availabeProduct = await productServices.findOneByID({
       _id: new Types.ObjectId(id),
@@ -218,10 +215,10 @@ export const publishedUnpublished = async (
       is_published: availabeProduct.is_published,
     });
 
-    res.status(200).json({
+    res.status(201).json({
       status: true,
-      message: "Product updated"
-    })
+      message: "Product updated",
+    });
   } catch (error: any) {
     console.log(error);
     next(error);

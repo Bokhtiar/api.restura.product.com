@@ -57,7 +57,7 @@ const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
             is_published,
         };
         yield product_services_1.productServices.storeDocuments({ documents });
-        res.status(200).json({
+        res.status(201).json({
             status: true,
             message: "Product created.",
         });
@@ -152,7 +152,6 @@ exports.destroy = destroy;
 const publishedUnpublished = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        console.log("id", id);
         /* availabe product */
         const availabeProduct = yield product_services_1.productServices.findOneByID({
             _id: new mongoose_1.Types.ObjectId(id),
@@ -172,9 +171,9 @@ const publishedUnpublished = (req, res, next) => __awaiter(void 0, void 0, void 
             _id: new mongoose_1.Types.ObjectId(id),
             is_published: availabeProduct.is_published,
         });
-        res.status(200).json({
+        res.status(201).json({
             status: true,
-            message: "Product updated"
+            message: "Product updated",
         });
     }
     catch (error) {

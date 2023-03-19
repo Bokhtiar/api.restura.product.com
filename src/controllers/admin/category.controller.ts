@@ -56,7 +56,7 @@ export const store = async (
 
     await categoryService.storeResource({ documents });
 
-    res.status(200).json({
+    res.status(201).json({
       status: true,
       message: "Category save",
     });
@@ -177,7 +177,7 @@ export const publishUnpublish = async (req: Request, res: Response, next: NextFu
       }
     )
 
-    res.status(200).json({
+    res.status(201).json({
       status: true,
       message: "Successfully category updated"
     })

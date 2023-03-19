@@ -13,7 +13,7 @@ exports.variantService = void 0;
 const models_1 = require("../../models");
 /* list of resource */
 const findAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    return yield models_1.Models.Variant.find();
+    return yield models_1.Models.Variant.find().populate('product', 'name');
 });
 /* store docuement */
 const storeDocument = ({ documents, }) => __awaiter(void 0, void 0, void 0, function* () {

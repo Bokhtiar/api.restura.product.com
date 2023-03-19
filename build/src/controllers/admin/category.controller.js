@@ -51,7 +51,7 @@ const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
             is_published: true,
         };
         yield category_services_1.categoryService.storeResource({ documents });
-        res.status(200).json({
+        res.status(201).json({
             status: true,
             message: "Category save",
         });
@@ -157,7 +157,7 @@ const publishUnpublish = (req, res, next) => __awaiter(void 0, void 0, void 0, f
             _id: new mongoose_1.Types.ObjectId(id),
             is_published: availableCategory.is_published,
         });
-        res.status(200).json({
+        res.status(201).json({
             status: true,
             message: "Successfully category updated"
         });
