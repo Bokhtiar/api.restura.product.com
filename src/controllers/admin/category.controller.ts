@@ -52,7 +52,7 @@ export const store = async (
       parent,
       ancestors,
       is_published: true,
-    };
+    }; 
 
     await categoryService.storeResource({ documents });
 
