@@ -24,8 +24,25 @@ const storeDocument = ({ documents, }) => __awaiter(void 0, void 0, void 0, func
     const storeDocument = new models_1.Models.Ingredient(Object.assign({}, documents));
     return yield storeDocument.save();
 });
+/* specific resource by id */
+const findOneByID = ({ _id, }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield models_1.Models.Ingredient.findById({ _id });
+});
+/* specific resource update */
+const findOneByAndUpdated = ({ _id, documents, }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield models_1.Models.Ingredient.findByIdAndUpdate(_id, {
+        $set: Object.assign({}, documents),
+    });
+});
+/* specific resource destory */
+const findOneByAndDelete = ({ _id, }) => __awaiter(void 0, void 0, void 0, function* () {
+    return models_1.Models.Ingredient.findByIdAndDelete({ _id });
+});
 exports.ingredientService = {
     findAll,
+    findOneByID,
     findOneByKey,
     storeDocument,
+    findOneByAndDelete,
+    findOneByAndUpdated,
 };

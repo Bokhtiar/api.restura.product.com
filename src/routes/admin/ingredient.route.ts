@@ -10,3 +10,7 @@ IngredientRoute.post(
   ingredientValidators.createUpdate,
   IngredientController.Store
 );
+
+IngredientRoute.get("/:id", IngredientController.Show);
+IngredientRoute.put("/:id", IngredientController.Update);
+IngredientRoute.delete("/:id", IngredientController.Desotry);

@@ -33,3 +33,6 @@ const ingredient_validators_1 = require("../../validators/ingredient.validators"
 exports.IngredientRoute = express_1.default.Router();
 exports.IngredientRoute.get("/", IngredientController.Index);
 exports.IngredientRoute.post("/", ingredient_validators_1.ingredientValidators.createUpdate, IngredientController.Store);
+exports.IngredientRoute.get("/:id", IngredientController.Show);
+exports.IngredientRoute.put("/:id", IngredientController.Update);
+exports.IngredientRoute.delete("/:id", IngredientController.Desotry);
