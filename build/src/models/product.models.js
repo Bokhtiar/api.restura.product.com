@@ -13,8 +13,9 @@ const productSchema = new mongoose_1.Schema({
         trim: true,
         required: true,
     },
-    components: {
-        type: String,
+    ingredient: {
+        type: [],
+        ref: "Ingredient",
         trim: true,
         required: true,
     },

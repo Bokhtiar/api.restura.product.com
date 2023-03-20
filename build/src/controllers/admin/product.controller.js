@@ -13,6 +13,7 @@ exports.publishedUnpublished = exports.destroy = exports.update = exports.show =
 const helper_1 = require("../../helper");
 const product_services_1 = require("../../services/admin/product.services");
 const mongoose_1 = require("mongoose");
+const ingredient_services_1 = require("../../services/admin/ingredient.services");
 /* list of resoruce */
 const index = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -31,7 +32,8 @@ exports.index = index;
 /* store documents */
 const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, price, components, description, image, cooking_time, offer_start, offer_end, is_published, } = req.body;
+        const { name, price, ingredient, description, image, cooking_time, offer_start, offer_end, is_published, } = req.body;
+        console.log("test", req.body);
         /* name exists */
         const nameExist = yield product_services_1.productServices.findOneByKey({ name });
         if (nameExist) {
@@ -48,7 +50,7 @@ const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         const documents = {
             name,
             price,
-            components,
+            ingredient,
             description,
             image,
             cooking_time,
@@ -75,9 +77,32 @@ const show = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
         const result = yield product_services_1.productServices.findOneByID({
             _id: new mongoose_1.Types.ObjectId(id),
         });
+        const array = result === null || result === void 0 ? void 0 : result.ingredient;
+        let ingredientItem = [];
+        for (let index = 0; index < array.length; index++) {
+            const element = array[index];
+            const ingredient = yield ingredient_services_1.ingredientService.findOneByID({
+                _id: new mongoose_1.Types.ObjectId(element.value),
+            });
+            ingredientItem.push({
+                _id: ingredient === null || ingredient === void 0 ? void 0 : ingredient._id,
+                name: ingredient === null || ingredient === void 0 ? void 0 : ingredient.name,
+                icon: ingredient === null || ingredient === void 0 ? void 0 : ingredient.icon,
+            });
+        }
+        const items = [];
+        items.push({
+            _id: result === null || result === void 0 ? void 0 : result._id,
+            name: result === null || result === void 0 ? void 0 : result.name,
+            ingredient: ingredientItem,
+            price: result === null || result === void 0 ? void 0 : result.price,
+            image: result === null || result === void 0 ? void 0 : result.image,
+            cooking_time: result === null || result === void 0 ? void 0 : result.cooking_time,
+            is_published: result === null || result === void 0 ? void 0 : result.is_published,
+        });
         res.status(200).json({
             status: true,
-            data: result,
+            data: items,
         });
     }
     catch (error) {
@@ -90,7 +115,7 @@ exports.show = show;
 const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const { name, price, components, description, image, cooking_time, offer_start, offer_end, is_published, } = req.body;
+        const { name, price, ingredient, description, image, cooking_time, offer_start, offer_end, is_published, } = req.body;
         /* check unique name */
         const existWithName = yield product_services_1.productServices.findOneByKey({ name });
         if (existWithName && existWithName._id.toString() !== id) {
@@ -107,7 +132,7 @@ const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         const documents = {
             name,
             price,
-            components,
+            ingredient,
             description,
             image,
             cooking_time,

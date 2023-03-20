@@ -3,6 +3,7 @@ import { IProductCreateUpdate } from "../../types/product.types";
 import { HttpErrorResponse } from "../../helper";
 import { productServices } from "../../services/admin/product.services";
 import { Types } from "mongoose";
+import { ingredientService } from "../../services/admin/ingredient.services";
 
 /* list of resoruce */
 export const index = async (
@@ -33,7 +34,7 @@ export const store = async (
     const {
       name,
       price,
-      components,
+      ingredient,
       description,
       image,
       cooking_time,
@@ -41,6 +42,7 @@ export const store = async (
       offer_end,
       is_published,
     } = req.body;
+    console.log("test", req.body);
 
     /* name exists */
     const nameExist = await productServices.findOneByKey({ name });
@@ -61,7 +63,7 @@ export const store = async (
     const documents: IProductCreateUpdate = {
       name,
       price,
-      components,
+      ingredient,
       description,
       image,
       cooking_time,
@@ -86,13 +88,40 @@ export const store = async (
 export const show = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-
     const result = await productServices.findOneByID({
       _id: new Types.ObjectId(id),
     });
+
+    const array: any = result?.ingredient;
+
+    let ingredientItem = [];
+    for (let index = 0; index < array.length; index++) {
+      const element: any = array[index];
+      const ingredient = await ingredientService.findOneByID({
+        _id: new Types.ObjectId(element.value),
+      });
+
+      ingredientItem.push({
+        _id: ingredient?._id,
+        name: ingredient?.name,
+        icon: ingredient?.icon,
+      });
+    }
+
+    const items = [];
+    items.push({
+      _id: result?._id,
+      name: result?.name,
+      ingredient: ingredientItem,
+      price: result?.price,
+      image: result?.image,
+      cooking_time: result?.cooking_time,
+      is_published: result?.is_published,
+    });
+
     res.status(200).json({
       status: true,
-      data: result,
+      data: items,
     });
   } catch (error: any) {
     console.log(error);
@@ -111,7 +140,7 @@ export const update = async (
     const {
       name,
       price,
-      components,
+      ingredient,
       description,
       image,
       cooking_time,
@@ -139,7 +168,7 @@ export const update = async (
     const documents: IProductCreateUpdate = {
       name,
       price,
-      components,
+      ingredient,
       description,
       image,
       cooking_time,

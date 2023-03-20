@@ -1,6 +1,7 @@
 import { IProduct, IProductCreateUpdate } from "../../types/product.types";
 import { Models } from "../../models";
 import { Types } from "mongoose";
+import { ingredientService } from "./ingredient.services";
 
 /* findAll resurce */
 const findAll = async (): Promise<IProduct[] | []> => {
@@ -25,28 +26,48 @@ const storeDocuments = async ({
 };
 
 /* specific resource findOneByID */
-const findOneByID = async ({ _id }: { _id: Types.ObjectId }):Promise<IProduct | null> => {
-    return await Models.Product.findById({_id})
+const findOneByID = async ({
+  _id,
+}: {
+  _id: Types.ObjectId;
+}): Promise<IProduct | null> => {
+ return await Models.Product.findById({ _id });
 };
 
 /* specific resoruce findOneByUPdate */
-const findOneByIdAndUpdate = async({_id, documents}: {_id: Types.ObjectId, documents:IProductCreateUpdate}):Promise<IProduct | null> => {
-    return await Models.Product.findByIdAndUpdate(_id, {
-        $set: {...documents}
-    })
-}
+const findOneByIdAndUpdate = async ({
+  _id,
+  documents,
+}: {
+  _id: Types.ObjectId;
+  documents: IProductCreateUpdate;
+}): Promise<IProduct | null> => {
+  return await Models.Product.findByIdAndUpdate(_id, {
+    $set: { ...documents },
+  });
+};
 
 /* specific resrouce delete */
-const findOneByIDdAndDelete = async({_id}: {_id: Types.ObjectId}):Promise<IProduct | null> => {
-    return await Models.Product.findByIdAndDelete({_id})
-}
- 
+const findOneByIDdAndDelete = async ({
+  _id,
+}: {
+  _id: Types.ObjectId;
+}): Promise<IProduct | null> => {
+  return await Models.Product.findByIdAndDelete({ _id });
+};
+
 /* specefic resoruce publishedUnpublished */
-const publishedUnpublished = async({_id, is_published}: {_id: Types.ObjectId, is_published: boolean}):Promise<IProduct | null > => {
-    return await Models.Product.findByIdAndUpdate(_id, {
-        $set: {is_published : !is_published}
-    })
-}
+const publishedUnpublished = async ({
+  _id,
+  is_published,
+}: {
+  _id: Types.ObjectId;
+  is_published: boolean;
+}): Promise<IProduct | null> => {
+  return await Models.Product.findByIdAndUpdate(_id, {
+    $set: { is_published: !is_published },
+  });
+};
 
 export const productServices = {
   findAll,
@@ -55,5 +76,5 @@ export const productServices = {
   storeDocuments,
   publishedUnpublished,
   findOneByIdAndUpdate,
-  findOneByIDdAndDelete
+  findOneByIDdAndDelete,
 };

@@ -25,23 +25,23 @@ const storeDocuments = ({ documents, }) => __awaiter(void 0, void 0, void 0, fun
     return yield newProduct.save();
 });
 /* specific resource findOneByID */
-const findOneByID = ({ _id }) => __awaiter(void 0, void 0, void 0, function* () {
+const findOneByID = ({ _id, }) => __awaiter(void 0, void 0, void 0, function* () {
     return yield models_1.Models.Product.findById({ _id });
 });
 /* specific resoruce findOneByUPdate */
-const findOneByIdAndUpdate = ({ _id, documents }) => __awaiter(void 0, void 0, void 0, function* () {
+const findOneByIdAndUpdate = ({ _id, documents, }) => __awaiter(void 0, void 0, void 0, function* () {
     return yield models_1.Models.Product.findByIdAndUpdate(_id, {
-        $set: Object.assign({}, documents)
+        $set: Object.assign({}, documents),
     });
 });
 /* specific resrouce delete */
-const findOneByIDdAndDelete = ({ _id }) => __awaiter(void 0, void 0, void 0, function* () {
+const findOneByIDdAndDelete = ({ _id, }) => __awaiter(void 0, void 0, void 0, function* () {
     return yield models_1.Models.Product.findByIdAndDelete({ _id });
 });
 /* specefic resoruce publishedUnpublished */
-const publishedUnpublished = ({ _id, is_published }) => __awaiter(void 0, void 0, void 0, function* () {
+const publishedUnpublished = ({ _id, is_published, }) => __awaiter(void 0, void 0, void 0, function* () {
     return yield models_1.Models.Product.findByIdAndUpdate(_id, {
-        $set: { is_published: !is_published }
+        $set: { is_published: !is_published },
     });
 });
 exports.productServices = {
@@ -51,5 +51,5 @@ exports.productServices = {
     storeDocuments,
     publishedUnpublished,
     findOneByIdAndUpdate,
-    findOneByIDdAndDelete
+    findOneByIDdAndDelete,
 };

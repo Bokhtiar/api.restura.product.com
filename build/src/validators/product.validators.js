@@ -27,11 +27,6 @@ const createUpdate = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
             required: true,
             message: "Price is required.",
         },
-        components: {
-            type: "string",
-            required: true,
-            message: "Components is required.",
-        },
         image: {
             type: "string",
             required: true,

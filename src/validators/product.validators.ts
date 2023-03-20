@@ -18,11 +18,7 @@ const createUpdate = async (
       required: true,
       message: "Price is required.",
     },
-    components: {
-      type: "string",
-      required: true,
-      message: "Components is required.",
-    },
+
     image: {
       type: "string",
       required: true,

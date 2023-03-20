@@ -13,9 +13,10 @@ const productSchema: Schema = new Schema<IProductCreateUpdate>(
       trim: true,
       required: true,
     },
-    components: {
-      type: String,
-      trim: true,
+    ingredient: {
+      type: [],
+      ref:"Ingredient",
+      trim: true, 
       required: true,
     },
     description: {
