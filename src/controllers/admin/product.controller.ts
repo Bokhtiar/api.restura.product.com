@@ -34,12 +34,13 @@ export const store = async (
     const {
       name,
       price,
+      category,
       ingredient,
       description,
       image,
       cooking_time,
       offer_start,
-      offer_end,
+      offer_end, 
       is_published,
     } = req.body;
     console.log("test", req.body);
@@ -63,6 +64,7 @@ export const store = async (
     const documents: IProductCreateUpdate = {
       name,
       price,
+      category: new Types.ObjectId(category.value),
       ingredient,
       description,
       image,
@@ -71,6 +73,7 @@ export const store = async (
       offer_end,
       is_published,
     };
+    console.log(documents);
 
     await productServices.storeDocuments({ documents });
 
@@ -140,6 +143,7 @@ export const update = async (
     const {
       name,
       price,
+      category,
       ingredient,
       description,
       image,
@@ -168,6 +172,7 @@ export const update = async (
     const documents: IProductCreateUpdate = {
       name,
       price,
+      category,
       ingredient,
       description,
       image,

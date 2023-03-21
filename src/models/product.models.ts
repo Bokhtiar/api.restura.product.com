@@ -13,10 +13,16 @@ const productSchema: Schema = new Schema<IProductCreateUpdate>(
       trim: true,
       required: true,
     },
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+      trim: true,
+      required: true,
+    }, 
     ingredient: {
       type: [],
-      ref:"Ingredient",
-      trim: true, 
+      ref: "Ingredient",
+      trim: true,
       required: true,
     },
     description: {

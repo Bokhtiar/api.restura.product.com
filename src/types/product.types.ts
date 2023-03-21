@@ -4,6 +4,7 @@ export interface IProduct {
   _id: Types.ObjectId;
   name: string;
   price: string;
+  category: Types.ObjectId;
   ingredient: [];
   description?: string;
   image: string;
@@ -16,6 +17,7 @@ export interface IProduct {
 export interface IProductCreateUpdate {
   name: string;
   price: string;
+  category: Types.ObjectId;
   ingredient: [];
   description: string;
   image: string;

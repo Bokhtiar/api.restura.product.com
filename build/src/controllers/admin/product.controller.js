@@ -32,7 +32,7 @@ exports.index = index;
 /* store documents */
 const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, price, ingredient, description, image, cooking_time, offer_start, offer_end, is_published, } = req.body;
+        const { name, price, category, ingredient, description, image, cooking_time, offer_start, offer_end, is_published, } = req.body;
         console.log("test", req.body);
         /* name exists */
         const nameExist = yield product_services_1.productServices.findOneByKey({ name });
@@ -50,6 +50,7 @@ const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         const documents = {
             name,
             price,
+            category: new mongoose_1.Types.ObjectId(category.value),
             ingredient,
             description,
             image,
@@ -58,6 +59,7 @@ const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
             offer_end,
             is_published,
         };
+        console.log(documents);
         yield product_services_1.productServices.storeDocuments({ documents });
         res.status(201).json({
             status: true,
@@ -115,7 +117,7 @@ exports.show = show;
 const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const { name, price, ingredient, description, image, cooking_time, offer_start, offer_end, is_published, } = req.body;
+        const { name, price, category, ingredient, description, image, cooking_time, offer_start, offer_end, is_published, } = req.body;
         /* check unique name */
         const existWithName = yield product_services_1.productServices.findOneByKey({ name });
         if (existWithName && existWithName._id.toString() !== id) {
@@ -132,6 +134,7 @@ const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         const documents = {
             name,
             price,
+            category,
             ingredient,
             description,
             image,
