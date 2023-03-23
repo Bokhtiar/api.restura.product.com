@@ -26,7 +26,7 @@ const storeDocuments = ({ documents, }) => __awaiter(void 0, void 0, void 0, fun
 });
 /* specific resource findOneByID */
 const findOneByID = ({ _id, }) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield models_1.Models.Product.findById({ _id });
+    return yield models_1.Models.Product.findById({ _id }).populate("category", "name");
 });
 /* specific resoruce findOneByUPdate */
 const findOneByIdAndUpdate = ({ _id, documents, }) => __awaiter(void 0, void 0, void 0, function* () {

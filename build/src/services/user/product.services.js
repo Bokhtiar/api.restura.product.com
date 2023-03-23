@@ -17,7 +17,7 @@ const findAll = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 /* findOneById */
 const findOneById = ({ _id, }) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield models_1.Models.Product.findById({ _id });
+    return yield models_1.Models.Product.findById({ _id }).populate("category", "name");
 });
 /* product has assing variant product findAll */
 const productHasAssingVariant = ({ _id }) => __awaiter(void 0, void 0, void 0, function* () {

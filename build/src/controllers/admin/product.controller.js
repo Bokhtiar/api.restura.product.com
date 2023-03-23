@@ -96,8 +96,10 @@ const show = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
         items.push({
             _id: result === null || result === void 0 ? void 0 : result._id,
             name: result === null || result === void 0 ? void 0 : result.name,
-            ingredient: ingredientItem,
             price: result === null || result === void 0 ? void 0 : result.price,
+            ingredient: ingredientItem,
+            category: result === null || result === void 0 ? void 0 : result.category,
+            description: result === null || result === void 0 ? void 0 : result.description,
             image: result === null || result === void 0 ? void 0 : result.image,
             cooking_time: result === null || result === void 0 ? void 0 : result.cooking_time,
             is_published: result === null || result === void 0 ? void 0 : result.is_published,

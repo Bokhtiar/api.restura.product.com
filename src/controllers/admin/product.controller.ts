@@ -115,8 +115,10 @@ export const show = async (req: Request, res: Response, next: NextFunction) => {
     items.push({
       _id: result?._id,
       name: result?.name,
-      ingredient: ingredientItem,
       price: result?.price,
+      ingredient: ingredientItem,
+      category: result?.category,
+      description: result?.description,
       image: result?.image,
       cooking_time: result?.cooking_time,
       is_published: result?.is_published,

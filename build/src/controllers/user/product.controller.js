@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.show = exports.index = void 0;
 const mongoose_1 = require("mongoose");
+const ingredient_services_1 = require("../../services/admin/ingredient.services");
 const product_services_1 = require("../../services/user/product.services");
 const index = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -32,12 +33,34 @@ const show = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
         const result = yield product_services_1.userProductService.findOneById({
             _id: new mongoose_1.Types.ObjectId(id),
         });
-        const variant = yield product_services_1.userProductService.productHasAssingVariant({
-            _id: new mongoose_1.Types.ObjectId(id),
+        const array = result === null || result === void 0 ? void 0 : result.ingredient;
+        let ingredientItem = [];
+        for (let index = 0; index < array.length; index++) {
+            const element = array[index];
+            const ingredient = yield ingredient_services_1.ingredientService.findOneByID({
+                _id: new mongoose_1.Types.ObjectId(element.value),
+            });
+            ingredientItem.push({
+                _id: ingredient === null || ingredient === void 0 ? void 0 : ingredient._id,
+                name: ingredient === null || ingredient === void 0 ? void 0 : ingredient.name,
+                icon: ingredient === null || ingredient === void 0 ? void 0 : ingredient.icon,
+            });
+        }
+        const items = [];
+        items.push({
+            _id: result === null || result === void 0 ? void 0 : result._id,
+            name: result === null || result === void 0 ? void 0 : result.name,
+            price: result === null || result === void 0 ? void 0 : result.price,
+            ingredient: ingredientItem,
+            category: result === null || result === void 0 ? void 0 : result.category,
+            description: result === null || result === void 0 ? void 0 : result.description,
+            image: result === null || result === void 0 ? void 0 : result.image,
+            cooking_time: result === null || result === void 0 ? void 0 : result.cooking_time,
+            is_published: result === null || result === void 0 ? void 0 : result.is_published,
         });
         res.status(200).json({
             status: true,
-            data: { "product": result, "variant": variant },
+            data: items,
         });
     }
     catch (error) {

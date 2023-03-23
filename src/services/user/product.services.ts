@@ -14,7 +14,7 @@ const findOneById = async ({
 }: {
   _id: Types.ObjectId;
 }): Promise<IProduct | null> => {
-  return await Models.Product.findById({ _id });
+  return await Models.Product.findById({ _id }).populate("category", "name");
 };
 
 
