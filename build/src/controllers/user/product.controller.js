@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.show = exports.index = void 0;
+exports.categoryHasAssingProduct = exports.show = exports.index = void 0;
 const mongoose_1 = require("mongoose");
 const ingredient_services_1 = require("../../services/admin/ingredient.services");
 const product_services_1 = require("../../services/user/product.services");
@@ -69,3 +69,21 @@ const show = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.show = show;
+/* category has assing product */
+const categoryHasAssingProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const resutls = product_services_1.userProductService.productHasAssingCategory({
+            _id: new mongoose_1.Types.ObjectId(id),
+        });
+        res.status(200).json({
+            status: true,
+            data: resutls,
+        });
+    }
+    catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+exports.categoryHasAssingProduct = categoryHasAssingProduct;

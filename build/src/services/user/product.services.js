@@ -20,11 +20,16 @@ const findOneById = ({ _id, }) => __awaiter(void 0, void 0, void 0, function* ()
     return yield models_1.Models.Product.findById({ _id }).populate("category", "name");
 });
 /* product has assing variant product findAll */
-const productHasAssingVariant = ({ _id }) => __awaiter(void 0, void 0, void 0, function* () {
+const productHasAssingVariant = ({ _id, }) => __awaiter(void 0, void 0, void 0, function* () {
     return yield models_1.Models.Variant.find({ product: _id, is_published: true });
+});
+/* product has assing category product findAll */
+const productHasAssingCategory = ({ _id, }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield models_1.Models.Product.find({ category: _id });
 });
 exports.userProductService = {
     findAll,
     findOneById,
-    productHasAssingVariant
+    productHasAssingVariant,
+    productHasAssingCategory,
 };

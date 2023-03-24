@@ -32,3 +32,4 @@ const productController = __importStar(require("../../controllers/user/product.c
 exports.productUserRouotes = express_1.default.Router();
 exports.productUserRouotes.get("/", productController.index);
 exports.productUserRouotes.get("/:id", productController.show);
+exports.productUserRouotes.get("/category/:id", productController.categoryHasAssingProduct);

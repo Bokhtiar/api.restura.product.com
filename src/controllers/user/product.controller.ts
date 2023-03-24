@@ -58,10 +58,32 @@ export const show = async (req: Request, res: Response, next: NextFunction) => {
 
     res.status(200).json({
       status: true,
-      data: items ,
+      data: items,
     });
   } catch (error: any) {
     console.log(error);
     next(error);
+  }
+};
+
+/* category has assing product */
+export const categoryHasAssingProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const resutls = userProductService.productHasAssingCategory({
+      _id: new Types.ObjectId(id),
+    });
+
+    res.status(200).json({
+      status: true,
+      data: resutls,
+    });
+  } catch (error: any) {
+    console.log(error);
+    next(error)
   }
 };
