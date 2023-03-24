@@ -76,7 +76,7 @@ export const categoryHasAssingProduct = async (
     const { id } = req.params;
     console.log(id);
     
-    const resutls = userProductService.productHasAssingCategory({
+    const resutls = await userProductService.productHasAssingCategory({
       _id: new Types.ObjectId(id),
     });
     console.log("results", resutls);
