@@ -33,35 +33,43 @@ const show = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
         const result = yield product_services_1.userProductService.findOneById({
             _id: new mongoose_1.Types.ObjectId(id),
         });
-        const array = result === null || result === void 0 ? void 0 : result.ingredient;
-        let ingredientItem = [];
-        for (let index = 0; index < array.length; index++) {
-            const element = array[index];
-            const ingredient = yield ingredient_services_1.ingredientService.findOneByID({
-                _id: new mongoose_1.Types.ObjectId(element.value),
-            });
-            ingredientItem.push({
-                _id: ingredient === null || ingredient === void 0 ? void 0 : ingredient._id,
-                name: ingredient === null || ingredient === void 0 ? void 0 : ingredient.name,
-                icon: ingredient === null || ingredient === void 0 ? void 0 : ingredient.icon,
+        if (!result) {
+            return res.status(404).json({
+                status: false,
+                data: result
             });
         }
-        const items = [];
-        items.push({
-            _id: result === null || result === void 0 ? void 0 : result._id,
-            name: result === null || result === void 0 ? void 0 : result.name,
-            price: result === null || result === void 0 ? void 0 : result.price,
-            ingredient: ingredientItem,
-            category: result === null || result === void 0 ? void 0 : result.category,
-            description: result === null || result === void 0 ? void 0 : result.description,
-            image: result === null || result === void 0 ? void 0 : result.image,
-            cooking_time: result === null || result === void 0 ? void 0 : result.cooking_time,
-            is_published: result === null || result === void 0 ? void 0 : result.is_published,
-        });
-        res.status(200).json({
-            status: true,
-            data: items,
-        });
+        else {
+            const array = result === null || result === void 0 ? void 0 : result.ingredient;
+            let ingredientItem = [];
+            for (let index = 0; index < array.length; index++) {
+                const element = array[index];
+                const ingredient = yield ingredient_services_1.ingredientService.findOneByID({
+                    _id: new mongoose_1.Types.ObjectId(element.value),
+                });
+                ingredientItem.push({
+                    _id: ingredient === null || ingredient === void 0 ? void 0 : ingredient._id,
+                    name: ingredient === null || ingredient === void 0 ? void 0 : ingredient.name,
+                    icon: ingredient === null || ingredient === void 0 ? void 0 : ingredient.icon,
+                });
+            }
+            const items = [];
+            items.push({
+                _id: result === null || result === void 0 ? void 0 : result._id,
+                name: result === null || result === void 0 ? void 0 : result.name,
+                price: result === null || result === void 0 ? void 0 : result.price,
+                ingredient: ingredientItem,
+                category: result === null || result === void 0 ? void 0 : result.category,
+                description: result === null || result === void 0 ? void 0 : result.description,
+                image: result === null || result === void 0 ? void 0 : result.image,
+                cooking_time: result === null || result === void 0 ? void 0 : result.cooking_time,
+                is_published: result === null || result === void 0 ? void 0 : result.is_published,
+            });
+            res.status(200).json({
+                status: true,
+                data: items,
+            });
+        }
     }
     catch (error) {
         console.log(error);
@@ -74,9 +82,10 @@ const categoryHasAssingProduct = (req, res, next) => __awaiter(void 0, void 0, v
     try {
         const { id } = req.params;
         console.log(id);
-        const resutls = product_services_1.userProductService.productHasAssingCategory({
+        const resutls = yield product_services_1.userProductService.productHasAssingCategory({
             _id: new mongoose_1.Types.ObjectId(id),
         });
+        console.log("results", resutls);
         res.status(200).json({
             status: true,
             data: resutls,
