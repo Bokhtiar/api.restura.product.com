@@ -73,6 +73,7 @@ exports.show = show;
 const categoryHasAssingProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
+        console.log(id);
         const resutls = product_services_1.userProductService.productHasAssingCategory({
             _id: new mongoose_1.Types.ObjectId(id),
         });

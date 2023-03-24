@@ -74,10 +74,12 @@ export const categoryHasAssingProduct = async (
 ) => {
   try {
     const { id } = req.params;
+    console.log(id);
+    
     const resutls = userProductService.productHasAssingCategory({
       _id: new Types.ObjectId(id),
     });
-
+    
     res.status(200).json({
       status: true,
       data: resutls,
