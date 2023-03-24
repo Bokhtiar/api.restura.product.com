@@ -79,6 +79,7 @@ export const categoryHasAssingProduct = async (
     const resutls = userProductService.productHasAssingCategory({
       _id: new Types.ObjectId(id),
     });
+    console.log("results", resutls);
     
     res.status(200).json({
       status: true,
